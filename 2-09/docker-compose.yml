@@ -1,0 +1,31 @@
+version: '3.8'
+services:
+  frontend:
+    image: frontend
+    restart: always
+    ports:
+      - 5000:5000
+  backend:
+    image: backend
+    environment:
+      - GIN_MODE=release
+      - REDIS_HOST=redis
+      - POSTGRES_HOST=db
+      - POSTGRES_USER=superuser
+      - POSTGRES_PASSWORD=imSoSuper9000
+    ports:
+      - 8080:8080
+  redis:
+    image: redis
+    restart: always
+    volumes:
+      - ./database:/data
+  db:
+    image: postgres:13.2-alpine
+    restart: unless-stopped
+    volumes:
+      - ./database:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: superuser
+      POSTGRES_PASSWORD: imSoSuper9000
+    container_name: database

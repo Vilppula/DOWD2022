@@ -1,0 +1,16 @@
+version: '3'
+services:
+  frontend:
+    image: frontend
+    ports:
+      - 5000:5000
+  backend:
+    image: backend
+    environment:
+      - GIN_MODE=release
+      - REDIS_HOST=redis
+    ports:
+      - 8080:8080
+  redis:
+    image: redis
+    restart: always
